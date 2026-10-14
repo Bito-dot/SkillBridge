@@ -1,0 +1,39 @@
+/* SkillBridge Course Thumbnail: used on Create/Edit and reusable on public pages */
+.cz-course-editor .cz-thumbnail-preview,
+.cz-course-thumbnail {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 7px;
+    background: #e1efea;
+}
+.cz-course-editor .cz-thumbnail-preview {
+    border: 1px solid #d9e2de;
+    margin: 8px 0 12px;
+}
+.cz-course-editor .cz-thumbnail-preview img,
+.cz-course-thumbnail img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+.cz-course-editor .cz-thumbnail-preview [hidden] { display: none !important; }
+.cz-course-editor .cz-thumbnail-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 100%;
+    color: #55746d;
+    font-size: 13px;
+}
+.cz-course-editor .cz-thumbnail-placeholder span:first-child { font-size: 32px; }
+.cz-course-editor input.cz-thumbnail-input[type="file"] {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    box-sizing: border-box;
+}

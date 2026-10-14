@@ -1,25 +1,305 @@
-@page
-@model SkillBridge.Web.Pages.Courses.DetailModel
+
+@page "/Courses/Detail"
+@model SkillBridge.Web.Pages.ChangZhe.Courses.DetailModel
+
 @{
-    ViewData["Title"] = Model.Detail.Course.Title;
+    ViewData["Title"] = Model.Course?.Title ?? "Course Details";
+    bool isDraftPreview = Model.Course != null && !Model.Course.IsPublished;
 }
-<a asp-page="/ChangZhe/Courses/Index" class="breadcrumbs">← All courses</a>
-<div class="page-head">
-    <div>
-        <p class="eyebrow">@Model.Detail.Course.Category · @Model.Detail.Course.Level</p>
-        <h1>@Model.Detail.Course.Title</h1>
-        <p>@Model.Detail.Course.Summary</p>
-    </div>
+
+<link rel="stylesheet"
+      href="~/css/coursedetail.css"
+      asp-append-version="true" />
+
+<div class="cz-detail @(isDraftPreview ? "cz-draft-preview" : "")">
+
+    @if (Model.Course == null)
+    {
+        <div class="cz-detail-breadcrumb">
+            <a href="/">Home</a>
+            <span>›</span>
+            <a href="/Courses">Courses</a>
+        </div>
+
+        <section class="cz-detail-panel">
+            <h1>Course Not Available</h1>
+            <div class="cz-detail-panel-body">
+                <p>This course is not currently available to the public.</p>
+                <a href="/Courses" class="cz-detail-btn secondary">
+                    Back to courses
+                </a>
+            </div>
+        </section>
+    }
+    else
+    {
+        @if (isDraftPreview)
+        {
+            <section class="cz-draft-banner" role="status">
+                <div class="cz-draft-banner-content">
+                    <span class="cz-draft-label">ADMIN PREVIEW</span>
+                    <h2>This course is still a draft</h2>
+                    <p>
+                        This is how your course will appear to learners
+                        after it is published. It is not publicly available yet.
+                    </p>
+                </div>
+                <span class="cz-draft-badge">Draft</span>
+            </section>
+        }
+
+        <div class="cz-detail-breadcrumb">
+            <a href="/">Home</a>
+            <span>›</span>
+
+            @if (isDraftPreview)
+            {
+                <a href="/Courses/Admin">Manage Courses</a>
+                <span>›</span>
+                <span>Draft Preview</span>
+            }
+            else
+            {
+                <a href="/Courses">Courses</a>
+                <span>›</span>
+                <span>@Model.Course.Title</span>
+            }
+        </div>
+
+        @if (isDraftPreview)
+        {
+            <a href="/Courses/Admin" class="cz-draft-back">
+                ← Back to Manage Courses
+            </a>
+        }
+
+        <header class="cz-detail-header">
+            <h1>@Model.Course.Title</h1>
+            <p>@Model.Course.Summary</p>
+        </header>
+
+        @if (!string.IsNullOrWhiteSpace(Model.CourseMessage))
+        {
+            <div class="cz-detail-status" role="status"
+                 >
+                @Model.CourseMessage
+            </div>
+        }
+
+        <div class="cz-detail-grid">
+
+            <!-- LEFT COLUMN -->
+            <div class="cz-detail-main">
+
+                <section class="cz-detail-panel">
+                    <h2>What you will learn</h2>
+
+                    <div class="cz-detail-panel-body">
+                        <p class="cz-detail-description">
+                            @Model.Course.Description
+                        </p>
+                    </div>
+                </section>
+
+                <section class="cz-detail-panel">
+                    <h2>Course outline</h2>
+
+                    <div class="cz-detail-panel-body">
+
+                        @if (Model.Course.LessonCount == 0)
+                        {
+                            <div class="cz-detail-empty">
+                                <div class="cz-detail-empty-icon">
+                                    📖
+                                </div>
+
+                                <h3>No lessons available yet</h3>
+
+                                <p>
+                                    Lessons and learning materials
+                                    will appear here once they
+                                    are added to this course.
+                                </p>
+                            </div>
+                        }
+                        else
+                        {
+                            <p class="cz-detail-outline-summary">
+                                @Model.Course.LessonCount
+                                lessons in this course.
+                            </p>
+
+                            <ul>
+                                @foreach (var lesson in Model.Lessons)
+                                {
+                                    <li>
+                                        @if (Model.HasStarted || User.IsInRole("Admin"))
+                                        {
+                                            <a asp-page="/Darren/Lessons/View" asp-route-id="@lesson.Id">@lesson.Title</a>
+                                        }
+                                        else
+                                        {
+                                            <span>@lesson.Title</span>
+                                        }
+                                        <span> · @lesson.DurationMinutes minutes</span>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                </section>
+
+                <section class="cz-detail-panel">
+                    <h2>Learn with the community</h2>
+
+                    <div class="cz-detail-panel-body">
+                        <p>
+                            Ask a course question or read how
+                            other learners work through a
+                            similar problem.
+                        </p>
+
+                        @if (isDraftPreview)
+                        {
+                            <div class="cz-detail-status">
+                                Community discussions will be available
+                                when this course is published.
+                            </div>
+                        }
+                        else
+                        {
+                            <a asp-page="/Hamzah/Forum/Index"
+                               class="cz-detail-btn secondary">
+                                View course discussions
+                            </a>
+                        }
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <aside class="cz-detail-sidebar">
+
+                <div class="cz-detail-enrol-card">
+
+                    <div class="cz-detail-cover">
+
+                        @if (!string.IsNullOrWhiteSpace(Model.Course.ThumbnailUrl))
+                        {
+                            <img src="@Model.Course.ThumbnailUrl"
+                                 alt="@Model.Course.Title course thumbnail"
+                                 class="cz-detail-cover-image" />
+                        }
+                        else
+                        {
+                            <div class="cz-detail-cover-art">
+                                <span class="cz-detail-cover-circle"></span>
+                                <span class="cz-detail-cover-line"></span>
+                                <span class="cz-detail-cover-node"></span>
+                                <span class="cz-detail-cover-label">
+                                    SkillBridge
+                                </span>
+                            </div>
+                        }
+
+                        @if (isDraftPreview)
+                        {
+                            <span class="cz-detail-cover-draft">
+                                Draft Preview
+                            </span>
+                        }
+                    </div>
+
+                    <div class="cz-detail-enrol-content">
+
+                        <span class="cz-detail-level">
+                            @Model.Course.Level
+                        </span>
+
+                        <h2>Start learning with SkillBridge</h2>
+
+                        <p class="cz-detail-muted">
+                            Free learning path
+                        </p>
+
+                        <ul class="cz-detail-features">
+                            <li>
+                                @Model.Course.LessonCount lessons ·
+                                @Model.Course.DurationMinutes minutes
+                            </li>
+
+                            <li>@Model.Course.Category</li>
+
+                            <li>Learn at your own pace</li>
+                        </ul>
+
+                        @if (isDraftPreview)
+                        {
+                            <div class="cz-detail-status">
+                                This course is currently a draft.
+                                Learning is unavailable until publication.
+                            </div>
+                        }
+                        else if (User.Identity?.IsAuthenticated != true)
+                        {
+                            <a asp-page="/JianYi/Account/Login"
+                               class="cz-detail-btn primary full">
+                                Sign in to start learning
+                            </a>
+
+                            <a asp-page="/JianYi/Account/Register"
+                               class="cz-detail-btn secondary full">
+                                Create an account
+                            </a>
+                        }
+                        else if (User.IsInRole("Admin"))
+                        {
+                            <div class="cz-detail-status">
+                                You are viewing this course
+                                as an administrator.
+                            </div>
+                        }
+                        else if (Model.HasStarted)
+                        {
+                            <div class="cz-detail-status"
+                                 >
+                                ✓ Saved in My Courses
+                            </div>
+
+                            @if (Model.Lessons.Count > 0)
+                            {
+                                <a asp-page="/Darren/Lessons/View" asp-route-id="@Model.Lessons[0].Id" class="cz-detail-btn primary full">Continue learning</a>
+                            }
+                            <a asp-page="/ChangZhe/Courses/Mine" class="cz-detail-btn secondary full">My courses</a>
+                        }
+                        else
+                        {
+                            <form method="post"
+                                  asp-page-handler="Start"
+                                  asp-route-id="@Model.Course.Id">
+
+                                <button type="submit"
+                                        class="cz-detail-btn primary full">
+                                    Start Learning
+                                </button>
+
+                            </form>
+
+                            <p class="cz-detail-muted"
+                               >
+                                This course will be saved to My Courses.
+                            </p>
+                        }
+
+                    </div>
+
+                </div>
+
+            </aside>
+
+        </div>
+    }
+
 </div>
-@if (!Model.Detail.IsPublished)
-{
-    <div class="alert warning" role="status">Administrator preview. This draft is not visible in the public catalogue.</div>
-}
-<section class="card">
-    <div class="card-body">
-        <h2>About this course</h2>
-        <p class="body-copy">@Model.Detail.Description</p>
-        <p>@Model.Detail.Course.LessonCount lessons · @Model.Detail.Course.DurationMinutes minutes</p>
-        <p class="muted">Enrolment is not open yet.</p>
-    </div>
-</section>

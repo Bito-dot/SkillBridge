@@ -10,6 +10,7 @@ This is the shared starter; the team still needs to finish the features.
 
 1. Install the .NET 10 SDK (10.0.301 or later in .NET 10) and start MySQL.
 2. Open `database/skillbridge.sql` in MySQL Workbench and execute it.
+   If you already imported the older database, run `database/migrations/001_add_course_thumbnail.sql` once instead. It preserves existing data.
 3. Open a terminal in this project folder. Replace the database details below:
 
 ```powershell

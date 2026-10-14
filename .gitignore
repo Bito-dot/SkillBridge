@@ -8,6 +8,7 @@
 .env.*
 **/appsettings.Local.json
 **/App_Data/
+Frontend/wwwroot/uploads/courses/
 *.log
 *.zip
 *.rar

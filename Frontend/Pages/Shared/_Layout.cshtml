@@ -27,7 +27,7 @@
                 <span>SkillBridge</span>
             </a>
             <nav class="site-nav" id="main-navigation" aria-label="Main navigation">
-                <a class="nav-link @(currentPage.StartsWith("/ChangZhe/Courses") && currentPage != "/ChangZhe/Courses/Mine" ? "active" : "")" asp-page="/ChangZhe/Courses/Index">Courses</a>
+                <a class="nav-link @(!isAdminPage && currentPage.StartsWith("/ChangZhe/Courses") && currentPage != "/ChangZhe/Courses/Mine" ? "active" : "")" asp-page="/ChangZhe/Courses/Index">Courses</a>
                 @if (isAuthenticated && !isAdmin)
                 {
                     <a class="nav-link @(currentPage == "/ChangZhe/Courses/Mine" ? "active" : "")" asp-page="/ChangZhe/Courses/Mine">My courses</a>
@@ -66,9 +66,15 @@
             </div>
         </div>
     </header>
-    <main id="main-content" class="site-main container" tabindex="-1">
-        @RenderBody()
-    </main>
+    <div class="container @(isAdmin && isAdminPage ? "admin-shell" : "")">
+        @if (isAdmin && isAdminPage)
+        {
+            <partial name="_AdminSidebar" />
+        }
+        <main id="main-content" class="site-main" tabindex="-1">
+            @RenderBody()
+        </main>
+    </div>
     <footer class="site-footer">
         <div class="container">
             <div class="footer-row">

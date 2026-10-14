@@ -1,0 +1,235 @@
+
+@page "/Courses/Admin"
+@model SkillBridge.Web.Pages.ChangZhe.Courses.Admin.IndexModel
+
+@{
+    ViewData["Title"] = "Manage Courses";
+}
+
+<link rel="stylesheet"
+      href="~/css/managedashboard.css"
+      asp-append-version="true" />
+
+
+
+<div class="cz-manage-layout">
+    <div class="cz-courses-main">
+
+        <nav class="ac-breadcrumb" aria-label="Breadcrumb">
+            <a asp-page="/JianYi/Admin/Index">Admin</a>
+            <span>›</span>
+            <span>Courses</span>
+        </nav>
+
+        <div class="ac-heading cz-list-heading">
+            <div>
+                <h1>Courses</h1>
+                <p>Build and publish SkillBridge learning paths.</p>
+            </div>
+
+            <a class="btn primary"
+               asp-page="/ChangZhe/Courses/Admin/Create">
+                Create course
+            </a>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.Notice))
+        {
+            <div class="cz-notice" role="status">
+                @Model.Notice
+            </div>
+        }
+
+        <form method="get"
+              class="cz-course-filters"
+              role="search">
+
+            <div class="field cz-search-field">
+                <label for="courseSearch">Search</label>
+                <input id="courseSearch"
+                       name="Search"
+                       type="search"
+                       class="control"
+                       value="@Model.Search"
+                       maxlength="100"
+                       placeholder="Search course title." />
+            </div>
+
+            <div class="field">
+                <label for="courseCategory">Category</label>
+                <select id="courseCategory"
+                        name="Category"
+                        class="control">
+                    <option value="">All categories</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category"
+                                selected="@(Model.Category == category)">
+                            @category
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="field">
+                <label for="courseStatus">Publication</label>
+                <select id="courseStatus"
+                        name="Status"
+                        class="control">
+                    <option value="">All states</option>
+                    <option value="Published"
+                            selected="@(Model.Status == "Published")">
+                        Published
+                    </option>
+                    <option value="Draft"
+                            selected="@(Model.Status == "Draft")">
+                        Draft
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn secondary">
+                Apply filters
+            </button>
+
+            <a class="cz-clear-filter"
+               href="/Courses/Admin">
+                Clear
+            </a>
+        </form>
+
+        <section class="cz-course-table-card"
+                 aria-label="Course list">
+
+            <table class="cz-course-table">
+                <thead>
+                    <tr>
+                        <th>Course</th>
+                        <th>Category</th>
+                        <th>Lessons</th>
+                        <th>Enrolments</th>
+                        <th>Status</th>
+                        <th class="cz-actions-heading">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var course in Model.Courses)
+                    {
+                        <tr>
+                            <td><strong>@course.Title</strong></td>
+                            <td>@course.Category</td>
+                            <td>@course.Lessons</td>
+                            <td>@course.Enrolments</td>
+
+                            <td>
+                                <span class="cz-course-status @(course.Published ? "is-published" : "is-draft")">
+                                    @(course.Published ? "Published" : "Draft")
+                                </span>
+                            </td>
+
+                            <td class="cz-actions-cell">
+                                <div class="cz-course-actions">
+
+                                    @if (course.Published)
+                                    {
+                                        <a asp-page="/ChangZhe/Courses/Detail"
+                                           asp-route-id="@course.Id"
+                                           class="cz-action-view">
+                                            View
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-page="/ChangZhe/Courses/Detail"
+                                           asp-route-id="@course.Id"
+                                           class="cz-action-view">
+                                            Preview
+                                        </a>
+                                    }
+
+                                    <a asp-page="/ChangZhe/Courses/Admin/Create"
+                                       asp-route-id="@course.Id"
+                                       class="cz-action-edit">
+                                        Edit
+                                    </a>
+
+                                    <button type="button"
+                                            class="cz-action-delete"
+                                            popovertarget="delete-course-@course.Id"
+                                            popovertargetaction="show">
+                                        Delete
+                                    </button>
+
+                                </div>
+                            </td>
+                        </tr>
+                    }
+
+                    @if (Model.Courses.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="6" class="cz-no-courses">
+                                <strong>No courses found</strong>
+                                <p>Try another keyword or clear your filters.</p>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="cz-course-table-footer">
+                <span>Showing @Model.Courses.Count courses</span>
+                <span>Sorted by the current list order</span>
+            </div>
+
+        </section>
+    </div>
+</div>
+
+@foreach (var course in Model.Courses)
+{
+    <div id="delete-course-@course.Id"
+         class="cz-delete-popover"
+         popover="auto"
+         role="dialog"
+         aria-labelledby="delete-title-@course.Id">
+
+        <div class="cz-delete-popover-icon">!</div>
+
+        <h2 id="delete-title-@course.Id">
+            Delete Course?
+        </h2>
+
+        <p>
+            Are you sure you want to delete
+            <strong>@course.Title</strong>?
+        </p>
+
+        <p class="cz-delete-warning">
+            This action cannot be undone.
+        </p>
+
+        <div class="cz-delete-popover-actions">
+
+            <button type="button"
+                    class="cz-delete-cancel"
+                    popovertarget="delete-course-@course.Id"
+                    popovertargetaction="hide">
+                Cancel
+            </button>
+
+            <form method="post"
+                  asp-page-handler="Delete"
+                  asp-route-id="@course.Id"
+                  class="cz-delete-confirm-form">
+
+                <button type="submit"
+                        class="cz-delete-confirm">
+                    Delete Course
+                </button>
+            </form>
+
+        </div>
+    </div>
+}

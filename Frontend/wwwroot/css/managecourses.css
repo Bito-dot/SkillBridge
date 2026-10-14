@@ -1,0 +1,609 @@
+
+/* =====================================================
+   SKILLBRIDGE - CREATE / EDIT COURSE PAGE
+   File: wwwroot/css/managecourses.css
+   ===================================================== */
+
+
+/* =====================================================
+   1. PAGE CONTAINER
+   ===================================================== */
+
+.cz-course-editor {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 28px 0 60px;
+    box-sizing: border-box;
+    color: #172b2b;
+}
+
+.cz-course-editor *,
+.cz-course-editor *::before,
+.cz-course-editor *::after {
+    box-sizing: border-box;
+}
+
+
+/* =====================================================
+   2. BREADCRUMB NAVIGATION
+   ===================================================== */
+
+.cz-course-editor .ac-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+
+    margin: 0 0 20px;
+    padding: 0;
+
+    font-size: 14px;
+    line-height: 1.5;
+    color: #64748b;
+}
+
+.cz-course-editor .ac-breadcrumb a {
+    color: #0f766e;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.cz-course-editor .ac-breadcrumb a:hover {
+    color: #115e59;
+    text-decoration: underline;
+}
+
+.cz-course-editor .ac-breadcrumb span {
+    display: inline-block;
+}
+
+.cz-course-editor .ac-breadcrumb
+span[aria-current="page"] {
+    color: #475569;
+}
+
+
+/* =====================================================
+   3. PAGE HEADING
+   ===================================================== */
+
+.cz-course-editor .ac-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin: 0 0 28px;
+    padding: 0;
+}
+
+.cz-course-editor .ac-heading h1 {
+    margin: 0 0 8px;
+    padding: 0;
+
+    color: #102a29;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: 1.25;
+}
+
+.cz-course-editor .ac-heading p {
+    margin: 0;
+    color: #64748b;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   4. MAIN TWO-COLUMN LAYOUT
+   ===================================================== */
+
+.cz-course-editor .ac-editor-grid {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(280px, 1fr);
+
+    align-items: start;
+    gap: 24px;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =====================================================
+   5. WHITE CONTENT PANELS
+   ===================================================== */
+
+.cz-course-editor .ac-panel {
+    display: block;
+
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 28px;
+
+    background-color: #ffffff;
+    border: 1px solid #dfe7e5;
+    border-radius: 12px;
+
+    box-shadow: 0 2px 8px rgba(15, 23, 42, 0.03);
+}
+
+.cz-course-editor .ac-panel h2 {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    margin: 0 0 26px;
+    padding: 0;
+
+    color: #102a29;
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.cz-course-editor .ac-panel h2 small {
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.cz-course-editor .ac-panel h3 {
+    margin: 0 0 14px;
+    padding: 0;
+
+    color: #102a29;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.cz-course-editor .ac-panel p {
+    margin: 0;
+    color: #52656a;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =====================================================
+   6. COURSE FORM STRUCTURE
+   ===================================================== */
+
+.cz-course-editor .ac-editor-form {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.cz-course-editor .ac-editor-form .field {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+/* =====================================================
+   7. FORM LABELS
+   ===================================================== */
+
+.cz-course-editor .ac-editor-form .field label {
+    display: block;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    color: #23383b;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.cz-course-editor .ac-editor-form .field label b {
+    color: #dc2626;
+    font-weight: 700;
+}
+
+
+/* =====================================================
+   8. INPUTS, DROPDOWNS AND TEXTAREAS
+   ===================================================== */
+
+.cz-course-editor .ac-editor-form
+input:not([type="hidden"]),
+
+.cz-course-editor .ac-editor-form select,
+
+.cz-course-editor .ac-editor-form textarea {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 11px 14px;
+
+    background: #ffffff;
+    color: #172d2b;
+
+    border: 1px solid #cbd5d1;
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.5;
+
+    box-sizing: border-box;
+
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.cz-course-editor .ac-editor-form
+input:not([type="hidden"]),
+
+.cz-course-editor .ac-editor-form select {
+    height: 46px;
+}
+
+.cz-course-editor .ac-editor-form textarea {
+    height: auto;
+    min-height: 120px;
+    resize: vertical;
+}
+
+.cz-course-editor .ac-editor-form
+textarea[name="Input.Description"] {
+    min-height: 160px;
+}
+
+.cz-course-editor .ac-editor-form
+input::placeholder,
+
+.cz-course-editor .ac-editor-form
+textarea::placeholder {
+    color: #94a3b8;
+    opacity: 1;
+}
+
+
+/* =====================================================
+   9. INPUT FOCUS EFFECTS
+   ===================================================== */
+
+.cz-course-editor .ac-editor-form input:focus,
+.cz-course-editor .ac-editor-form select:focus,
+.cz-course-editor .ac-editor-form textarea:focus {
+    outline: none;
+
+    border-color: #0f766e;
+
+    box-shadow:
+        0 0 0 3px rgba(15, 118, 110, 0.12);
+}
+
+
+/* =====================================================
+   10. HELPER TEXT
+   ===================================================== */
+
+.cz-course-editor .ac-editor-form .field small {
+    display: block;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    color: #64748b;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   11. LEVEL AND DURATION FIELDS
+   ===================================================== */
+
+.cz-course-editor .ac-two-fields {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        minmax(0, 1fr);
+
+    gap: 18px;
+
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.cz-course-editor .ac-two-fields .field {
+    min-width: 0;
+}
+
+
+/* =====================================================
+   12. VALIDATION MESSAGES
+   ===================================================== */
+
+.cz-course-editor .field-error {
+    display: block;
+
+    color: #dc2626;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.cz-course-editor .field-error:empty {
+    display: none;
+}
+
+.cz-course-editor .input-validation-error {
+    border-color: #dc2626 !important;
+}
+
+.cz-course-editor .validation-summary-errors {
+    padding: 12px 16px;
+
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+
+    color: #b91c1c;
+}
+
+.cz-course-editor .validation-summary-errors ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+
+/* =====================================================
+   13. FORM ACTION BUTTONS
+   ===================================================== */
+
+.cz-course-editor .ac-form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 12px;
+
+    width: 100%;
+    margin-top: 6px;
+    padding-top: 24px;
+
+    border-top: 1px solid #e5e7eb;
+}
+
+.cz-course-editor .ac-form-actions .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 44px;
+    min-width: 110px;
+
+    margin: 0;
+    padding: 11px 22px;
+
+    border-radius: 8px;
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+
+    text-align: center;
+    text-decoration: none;
+
+    cursor: pointer;
+    transition:
+        background-color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+/* Primary button */
+
+.cz-course-editor .ac-form-actions .btn.primary {
+    color: #ffffff;
+    background-color: #0f766e;
+    border: 1px solid #0f766e;
+}
+
+.cz-course-editor .ac-form-actions .btn.primary:hover {
+    background-color: #115e59;
+    border-color: #115e59;
+}
+
+
+/* Secondary button */
+
+.cz-course-editor .ac-form-actions .btn.secondary {
+    color: #334155;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+}
+
+.cz-course-editor .ac-form-actions .btn.secondary:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+}
+
+
+/* =====================================================
+   14. RIGHT INFORMATION SIDEBAR
+   ===================================================== */
+
+.cz-course-editor .ac-editor-aside {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    width: 100%;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.cz-course-editor .ac-editor-aside .ac-panel {
+    width: 100%;
+    padding: 24px;
+}
+
+.cz-course-editor .ac-editor-aside .ac-panel h3 {
+    margin-bottom: 12px;
+}
+
+.cz-course-editor .ac-editor-aside .ac-panel p {
+    color: #52656a;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+
+/* =====================================================
+   15. PUBLISHING INFORMATION TIP
+   ===================================================== */
+
+.cz-course-editor .ac-tip {
+    display: block;
+
+    margin-top: 18px;
+    padding: 14px 16px;
+
+    background-color: #ecfdf5;
+    border: 1px solid #d1fae5;
+    border-radius: 8px;
+
+    color: #0f766e;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   16. STATUS NOTIFICATION
+   ===================================================== */
+
+.cz-course-editor .ac-notice {
+    display: block;
+
+    width: 100%;
+    margin: 0 0 22px;
+    padding: 14px 18px;
+
+    background-color: #ecfdf5;
+    border: 1px solid #a7f3d0;
+    border-radius: 8px;
+
+    color: #065f46;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+
+/* =====================================================
+   17. TABLET LAYOUT
+   ===================================================== */
+
+@media (max-width: 900px) {
+
+    .cz-course-editor .ac-editor-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cz-course-editor .ac-editor-aside {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+
+/* =====================================================
+   18. SMALL SCREEN LAYOUT
+   ===================================================== */
+
+@media (max-width: 600px) {
+
+    .cz-course-editor {
+        padding: 20px 0 40px;
+    }
+
+    .cz-course-editor .ac-heading h1 {
+        font-size: 26px;
+    }
+
+    .cz-course-editor .ac-panel {
+        padding: 20px;
+    }
+
+    .cz-course-editor .ac-two-fields {
+        grid-template-columns: 1fr;
+    }
+
+    .cz-course-editor .ac-editor-aside {
+        grid-template-columns: 1fr;
+    }
+
+    .cz-course-editor .ac-form-actions {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .cz-course-editor .ac-form-actions .btn {
+        width: 100%;
+    }
+}
+
+
+/* ==========================================
+   FIX: PUBLICATION STATUS CHECKBOX
+   ========================================== */
+
+.cz-course-editor .ac-editor-form input[type="checkbox"] {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    max-width: 18px;
+    margin: 0;
+    padding: 0;
+    border-radius: 4px;
+    accent-color: #0f766e;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.cz-course-editor .ac-editor-form input[type="checkbox"] + label {
+    display: inline;
+    width: auto;
+    margin-left: 8px;
+    vertical-align: middle;
+    cursor: pointer;
+}

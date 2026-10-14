@@ -12,7 +12,9 @@ Use the CSS and SQL files in this repository.
 READY NOW
 Account pages, shared layout, live Admin totals and user management are implemented.
 Read JIAN_YI_EXAMPLE.txt for the code walkthrough and checks to run.
-Basic course, forum, lesson and quiz reading pages. All five owners have files.
+Chang Zhe's course CRUD, thumbnails, catalogue filters and enrol/drop are integrated.
+My Courses reads saved lesson progress and links to available lessons and quizzes.
+Forum, lesson and quiz reading pages are present; their remaining workflows are still needed.
 The database starts with three draft courses. Empty lists are normal.
 
 ASSIGNMENT MARKS
@@ -26,8 +28,8 @@ YOUR PART - 30 LAYOUTS TOTAL
 Jian Yi (JianYi), 9 layouts: Home, accounts, Admin users and shared layout.
   Review and test user create/edit/delete. Review and combine everyone's work.
 Chang Zhe (ChangZhe), 5 layouts: Catalogue, course details, My Courses,
-  Admin course list and course editor. Add enrol/drop and course CRUD.
-  Use the existing categories; add links to lessons/quizzes.
+  Admin course list and course editor. Course CRUD and enrol/drop are integrated.
+  Review the combined flow with Darren and Timothy, then collect report evidence.
 Darren (Darren), 5 layouts: Lessons, video/resources, downloads and progress.
   Add Admin lesson/resource create/edit/delete. Make your own lesson content
   and short videos; play videos with an HTML5 video element.
@@ -47,15 +49,18 @@ Frontend/Pages/<owner>/   Page appearance (.cshtml)
 Backend/Pages/<owner>/    Matching page handlers (.cshtml.cs)
 Backend/<owner>/          Logic and database queries
 Frontend/Pages/Shared/    Shared layout and components
+  _AdminSidebar.cshtml   One shared admin menu, included automatically by _Layout.
 Frontend/wwwroot/        Shared CSS, JavaScript, images and fonts
 database/skillbridge.sql  Shared tables and starting data
 
 STEPS
 1. Get the latest main branch and create your own branch. Follow README.md
    to run the website and create a local Admin account.
+   Existing databases need database/migrations/001_add_course_thumbnail.sql.
 2. Open your Figma board using the link in README.md. Start with the files
    already in your folder, then add the remaining pages on your board.
 3. Reuse the layout, CSS and login. Use one form for Create/Edit.
+   Add admin menu links in Shared/_AdminSidebar.cshtml, not individual pages.
    Do not add category management, announcements or a separate history page.
    No separate mobile pages, quiz timer or self-service account closure.
 4. Connect your pages to MySQL using parameterised SQL. Check input and

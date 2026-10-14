@@ -1,0 +1,132 @@
+@page "/Courses/Admin/Create"
+@model SkillBridge.Web.Pages.ChangZhe.Courses.Admin.CreateModel
+@{
+    ViewData["Title"] = Model.IsEdit ? "Edit Course" : "Create Course";
+}
+<link rel="stylesheet" href="~/css/managecourses.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/css/coursethumbnail.css" asp-append-version="true" />
+<div class="cz-course-editor">
+    <nav class="ac-breadcrumb" aria-label="Breadcrumb">
+        <a asp-page="/JianYi/Admin/Index">Admin</a><span>›</span>
+        <a href="/Courses/Admin">Courses</a><span>›</span>
+        <span aria-current="page">@(Model.IsEdit ? "Edit course" : "Create course")</span>
+    </nav>
+    <div class="ac-heading">
+        <div>
+            <h1>@(Model.IsEdit ? "Edit course" : "Create course")</h1>
+            <p>@(Model.IsEdit ? "Update course information and publication settings." : "Describe a focused learning path before adding its lessons.")</p>
+        </div>
+    </div>
+    @if (!string.IsNullOrWhiteSpace(Model.Message))
+    {
+        <div class="ac-notice">@Model.Message</div>
+    }
+    <form method="post" enctype="multipart/form-data" class="ac-editor-form">
+        <input type="hidden" asp-for="CourseId" />
+        <div asp-validation-summary="All" class="field-error"></div>
+        <div class="ac-editor-grid">
+            <section class="ac-panel">
+                <h2>Course details <small>* Required</small></h2>
+                <div class="field">
+                    <label asp-for="Input.Title">Course title <b>*</b></label>
+                    <input asp-for="Input.Title" class="control" minlength="3" maxlength="100" required placeholder="Enter course title" />
+                    <small>3–100 characters.</small>
+                    <span asp-validation-for="Input.Title" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Input.Category">Category <b>*</b></label>
+                    <select asp-for="Input.Category" class="control" required>
+                        <option value="">Select a category</option>
+                        @foreach (var category in Model.Categories)
+                        {
+                            <option value="@category">@category</option>
+                        }
+                    </select>
+                    <small>Choose an existing category.</small>
+                    <span asp-validation-for="Input.Category" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Input.Summary">Summary <b>*</b></label>
+                    <textarea asp-for="Input.Summary" class="control" rows="4" minlength="30" maxlength="180" required placeholder="Write a short summary of the course"></textarea>
+                    <small>30–180 characters. Used on catalogue cards.</small>
+                    <span asp-validation-for="Input.Summary" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Input.Description">Description <b>*</b></label>
+                    <textarea asp-for="Input.Description" class="control" rows="6" minlength="80" maxlength="2000" required placeholder="Describe the course content and learning outcomes"></textarea>
+                    <small>80–2,000 characters. Plain text; preserve paragraphs.</small>
+                    <span asp-validation-for="Input.Description" class="field-error"></span>
+                </div>
+                <div class="ac-two-fields">
+                    <div class="field">
+                        <label asp-for="Input.Level">Level <b>*</b></label>
+                        <select asp-for="Input.Level" class="control" required>
+                            <option value="Beginner">Beginner</option>
+                            <option value="Intermediate">Intermediate</option>
+                            <option value="Advanced">Advanced</option>
+                        </select>
+                        <small>Use the shared controlled list.</small>
+                        <span asp-validation-for="Input.Level" class="field-error"></span>
+                    </div>
+                    <div class="field">
+                        <label asp-for="Input.DurationMinutes">Estimated duration (minutes) <b>*</b></label>
+                        <input asp-for="Input.DurationMinutes" class="control" type="number" min="5" max="600" required />
+                        <small>Whole number from 5 to 600.</small>
+                        <span asp-validation-for="Input.DurationMinutes" class="field-error"></span>
+                    </div>
+                </div>
+                <div class="field">
+                    <label asp-for="Thumbnail">Course thumbnail</label>
+                    <div class="cz-thumbnail-preview">
+                        <img id="czThumbnailPreview" src="@(Model.ExistingThumbnailUrl ?? "")" alt="Course thumbnail preview" hidden="@(string.IsNullOrWhiteSpace(Model.ExistingThumbnailUrl))" />
+                        <div id="czThumbnailPlaceholder" class="cz-thumbnail-placeholder" hidden="@(!string.IsNullOrWhiteSpace(Model.ExistingThumbnailUrl))">
+                            <span aria-hidden="true">▧</span>
+                            <span>No thumbnail selected</span>
+                        </div>
+                    </div>
+                    <input asp-for="Thumbnail" id="czThumbnailInput" type="file" class="control cz-thumbnail-input" accept=".jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp" />
+                    <small>JPG, PNG or WebP. Maximum 2 MB. Recommended 1280 × 720 (16:9). Image will be cropped to fit.</small>
+                    @if (Model.IsEdit && !string.IsNullOrWhiteSpace(Model.ExistingThumbnailUrl))
+                    {
+                        <small>Leave this empty to keep the current thumbnail.</small>
+                    }
+                    <span asp-validation-for="Thumbnail" class="field-error"></span>
+                    <span id="czThumbnailClientError" class="field-error" role="alert"></span>
+                </div>
+                <div class="field">
+                    <label for="publicationStatus">Publication status <b>*</b></label>
+                    <select id="publicationStatus" name="Input.Published" class="control" required>
+                        @if (Model.Input.Published)
+                        {
+                            <option value="false">Draft</option>
+                            <option value="true" selected>Published</option>
+                        }
+                        else
+                        {
+                            <option value="false" selected>Draft</option>
+                            <option value="true">Published</option>
+                        }
+                    </select>
+                    <small>Publish only when the linked lesson content is ready.</small>
+                    <span asp-validation-for="Input.Published" class="field-error"></span>
+                </div>
+                <div class="ac-form-actions">
+                    <button type="submit" class="btn primary">@(Model.IsEdit ? "Save changes" : "Create course")</button>
+                    <a href="/Courses/Admin" class="btn secondary">Cancel</a>
+                </div>
+            </section>
+            <aside class="ac-editor-aside">
+                <section class="ac-panel">
+                    <h3>Before publishing</h3>
+                    <p>Check the title, summary and category. Add the complete lesson content. Check videos, transcripts and references. Prepare the course self-assessment.</p>
+                    <div class="ac-tip">Draft courses are visible to administrators only.</div>
+                </section>
+                <section class="ac-panel">
+                    <h3>Existing learners</h3>
+                    <p>Unpublishing keeps enrolments and learning history. Members regain access when you publish the course again.</p>
+                </section>
+            </aside>
+        </div>
+    </form>
+</div>
+<script src="~/js/course-editor.js" asp-append-version="true" defer></script>

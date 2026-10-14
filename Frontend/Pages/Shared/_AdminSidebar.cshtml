@@ -1,0 +1,24 @@
+@{
+    var currentPage = ViewContext.RouteData.Values["page"]?.ToString() ?? "";
+    var links = new[]
+    {
+        (Page: "/JianYi/Admin/Index", Prefix: "/JianYi/Admin/Index", Label: "Overview"),
+        (Page: "/JianYi/Admin/Users/Index", Prefix: "/JianYi/Admin/Users/", Label: "Users"),
+        (Page: "/ChangZhe/Courses/Admin/Index", Prefix: "/ChangZhe/Courses/Admin/", Label: "Courses"),
+        (Page: "/Darren/Admin/Lessons/Index", Prefix: "/Darren/Admin/Lessons/", Label: "Lessons"),
+        (Page: "/Timothy/Admin/Quizzes/Index", Prefix: "/Timothy/Admin/Quizzes/", Label: "Quizzes")
+    };
+}
+@* Shared by every admin module. Add future admin links here, not in individual pages. *@
+<aside class="admin-sidebar">
+    <p class="eyebrow">ADMINISTRATION</p>
+    <nav aria-label="Administration">
+        @foreach (var link in links)
+        {
+            var isActive = currentPage.StartsWith(link.Prefix, StringComparison.Ordinal);
+            <a asp-page="@link.Page" class="admin-sidebar-link @(isActive ? "active" : "")" aria-current="@(isActive ? "page" : null)">@link.Label</a>
+        }
+    </nav>
+    <a asp-page="/Hamzah/Forum/Index" class="admin-sidebar-link">Community</a>
+    <a asp-page="/JianYi/Index" class="admin-sidebar-link">Back to website</a>
+</aside>

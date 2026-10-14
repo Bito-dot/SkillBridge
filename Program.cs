@@ -36,6 +36,7 @@ builder.Services.AddRazorPages(options =>
     string[] owners = ["JianYi", "ChangZhe", "Darren", "Timothy", "Hamzah"];
     foreach (var owner in owners)
         options.Conventions.AuthorizeFolder($"/{owner}/Admin", "Admin");
+    options.Conventions.AuthorizeFolder("/ChangZhe/Courses/Admin", "Admin");
     options.Conventions.AuthorizeFolder("/Darren/Lessons");
     options.Conventions.AuthorizeFolder("/Darren/Resources");
     options.Conventions.AuthorizeFolder("/Timothy/Quizzes");

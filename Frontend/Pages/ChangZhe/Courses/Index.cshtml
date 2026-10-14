@@ -1,34 +1,89 @@
+
 @page
 @model SkillBridge.Web.Pages.Courses.IndexModel
+
 @{
     ViewData["Title"] = "Courses";
 }
+
 <div class="page-head">
     <div>
-        <p class="eyebrow">A LITTLE LEARNING, EVERY DAY</p>
         <h1>Find your next practical skill</h1>
-        <p>Focused courses to help you build with confidence.</p>
+        <p>Focused learning paths. Start wherever you need confidence.</p>
     </div>
 </div>
+
+<div asp-validation-summary="All" class="field-error"></div>
 <form method="get" class="toolbar" role="search">
     <div class="field">
         <label asp-for="Search">Search courses</label>
-        <input asp-for="Search" class="control" type="search" maxlength="100" placeholder="Try Git or SQL" />
-        <span asp-validation-for="Search" class="field-error"></span>
+        <input asp-for="Search"
+               class="control"
+               type="search"
+               maxlength="100"
+               placeholder="Try Git or SQL" />
+        <span asp-validation-for="Search"
+              class="field-error"></span>
     </div>
-    <button class="btn primary" type="submit">Search</button>
+
+    <div class="field">
+        <label for="category">Category</label>
+        <select id="category"
+                name="Category"
+                class="control">
+            <option value="">All categories</option>
+            @foreach (var category in Model.Categories)
+            {
+                <option value="@category" selected="@(Model.Category == category)">@category</option>
+            }
+        </select>
+    </div>
+
+    <div class="field">
+        <label for="sort">Sort by</label>
+        <select id="sort"
+                name="Sort"
+                class="control">
+            <option value="popular" selected="@(Model.Sort == "popular")">Most enrolled</option>
+            <option value="title" selected="@(Model.Sort == "title")">Course title</option>
+            <option value="newest" selected="@(Model.Sort == "newest")">Newest</option>
+        </select>
+    </div>
+
+    <button class="btn primary" type="submit">
+        Search
+    </button>
 </form>
+
+<div class="catalogue-summary">
+    <span>@Model.Courses.Count courses found</span>
+
+    <a asp-page="/ChangZhe/Courses/Index">
+        Clear filters
+    </a>
+</div>
+
 @if (Model.Courses.Count == 0)
 {
     <section class="card empty">
-        <h2>@(string.IsNullOrWhiteSpace(Model.Search) ? "New courses are on their way" : "No courses found")</h2>
-        <p>@(string.IsNullOrWhiteSpace(Model.Search) ? "Our learning team is preparing the first courses. Check back soon." : "Try another keyword or clear your search.")</p>
-        <a asp-page="/ChangZhe/Courses/Index" class="btn secondary">Clear search</a>
+        <h2>No courses found</h2>
+        <p>Try another keyword or clear your filters.</p>
+        <a asp-page="/ChangZhe/Courses/Index"
+           class="btn secondary">
+            Clear filters
+        </a>
     </section>
 }
-<div class="grid two">
-    @foreach (var course in Model.Courses)
-    {
-        <partial name="_CourseCard" model="course" />
-    }
-</div>
+else
+{
+    <div class="grid two">
+        @foreach (var course in Model.Courses)
+        {
+            <partial name="_CourseCard" model="course" />
+        }
+    </div>
+
+    <p class="catalogue-footer">
+        Showing 1–@Model.Courses.Count of @Model.Courses.Count
+    </p>
+}

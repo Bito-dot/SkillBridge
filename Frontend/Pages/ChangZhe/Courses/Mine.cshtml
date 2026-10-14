@@ -1,26 +1,186 @@
+
 @page
 @model SkillBridge.Web.Pages.Courses.MineModel
+
 @{
     ViewData["Title"] = "My courses";
 }
-<div class="page-head">
-    <div>
-        <h1>My courses</h1>
-        <p>Your next small step starts here.</p>
+
+<link rel="stylesheet"
+      href="~/css/mycourses.css"
+      asp-append-version="true" />
+
+<div class="cz-mine">
+
+    <!-- Page heading -->
+    <div class="page-head">
+        <div>
+            <h1>My courses</h1>
+            <p>Keep learning, one useful step at a time.</p>
+        </div>
+
+        <a asp-page="/ChangZhe/Courses/Index"
+           class="btn primary">
+            Browse courses
+        </a>
     </div>
-    <a asp-page="/ChangZhe/Courses/Index" class="btn primary">Browse courses</a>
-</div>
-@if (Model.Courses.Count == 0)
-{
-    <section class="card empty">
-        <h2>Your next skill starts here</h2>
-        <p>You have no published courses in your learning list yet.</p>
-        <a asp-page="/ChangZhe/Courses/Index" class="btn primary">Explore courses</a>
-    </section>
-}
-<div class="grid two">
-    @foreach (var course in Model.Courses)
+
+    @if (Model.Courses.Count == 0)
     {
-        <partial name="_CourseCard" model="course" />
+        <!-- Empty course list -->
+        <section class="card empty">
+            <h2>Your next skill starts here</h2>
+            <p>You have no courses in your learning list yet.</p>
+
+            <a asp-page="/ChangZhe/Courses/Index"
+               class="btn primary">
+                Explore courses
+            </a>
+        </section>
     }
+    else
+    {
+        <p class="cz-mine-summary">
+            @Model.Courses.Count enrolled courses
+        </p>
+
+        <div class="cz-mine-grid">
+
+            @foreach (var course in Model.Courses)
+            {
+                <article class="cz-mine-card">
+
+                    <!-- Course thumbnail -->
+                    <div class="cz-mine-art @course.ArtworkKey">
+
+                        @if (!string.IsNullOrWhiteSpace(course.ThumbnailUrl))
+                        {
+                            <button type="button"
+                                    class="cz-mine-image-link"
+                                    aria-label="View full-size thumbnail for @course.Title">
+
+                                <img src="@course.ThumbnailUrl"
+                                     alt="@course.Title course thumbnail"
+                                     class="cz-mine-thumbnail"
+                                     loading="lazy" />
+
+                            </button>
+                        }
+                        else
+                        {
+                            <div class="cz-mine-placeholder">
+                                <partial name="_CourseArtwork"
+                                         model="course.ArtworkKey" />
+                            </div>
+                        }
+
+                    </div>
+
+                    <!-- Course information -->
+                    <div class="cz-mine-body">
+
+                        <span class="cz-mine-category">
+                            @course.Category
+                        </span>
+
+                        <h2 class="cz-mine-title">
+                            @course.Title
+                        </h2>
+
+                        @{
+                            // Progress comes from Darren's lesson_progress records.
+                            var learning = Model.Learning.GetValueOrDefault(course.Id);
+                            int completedLessons = learning?.CompletedLessons ?? 0;
+                            int totalLessons = course.LessonCount;
+
+                            int percentage = totalLessons > 0
+                                ? (int)Math.Round(
+                                    completedLessons * 100.0 / totalLessons)
+                                : 0;
+                        }
+
+                        <!-- Course progress -->
+                        <div class="cz-mine-progress-info">
+                            <span>
+                                @completedLessons of @totalLessons lessons complete
+                            </span>
+
+                            <strong>@percentage%</strong>
+                        </div>
+
+                        <progress class="cz-mine-progress-track" value="@percentage" max="100" aria-label="Course completion">@percentage%</progress>
+
+                        <!-- Course actions -->
+                        <div class="cz-mine-actions">
+
+                            @if (learning?.FirstLessonId is { } lessonId)
+                            {
+                                <a asp-page="/Darren/Lessons/View" asp-route-id="@lessonId" class="cz-mine-button primary">@(completedLessons > 0 ? "Continue learning" : "Start learning")</a>
+                            }
+                            else
+                            {
+                                <span class="cz-mine-notice">Lessons are being prepared.</span>
+                            }
+                            <a asp-page="/ChangZhe/Courses/Detail" asp-route-id="@course.Id" class="cz-mine-button secondary">Course details</a>
+                            @if (learning?.QuizId is { } quizId)
+                            {
+                                <a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@quizId" class="cz-mine-button secondary">Self-assessment</a>
+                            }
+                            else
+                            {
+                                <span class="cz-mine-notice">No published self-assessment yet.</span>
+                            }
+
+                            <!-- Remove from My Courses -->
+                            <form method="post"
+                                  asp-page-handler="Remove"
+                                  asp-route-id="@course.Id"
+                                  class="cz-mine-remove-form">
+
+                                <button type="submit"
+                                        class="cz-mine-leave">
+                                    Remove from My Courses
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </article>
+            }
+
+        </div>
+    }
+
 </div>
+
+<!-- ==========================================
+     COURSE THUMBNAIL POPUP
+     ========================================== -->
+
+<dialog id="czCourseImageDialog"
+        class="cz-course-dialog"
+        aria-label="Full-size course thumbnail">
+
+    <div class="cz-course-dialog-content">
+
+        <button type="button"
+                class="cz-course-dialog-close"
+                aria-label="Close image">
+            &times;
+        </button>
+
+        <img id="czCourseDialogImage"
+             class="cz-course-dialog-image"
+             alt="" />
+
+    </div>
+
+</dialog>
+
+<!-- External JavaScript: compatible with script-src 'self' -->
+<script src="~/js/mycourses.js"
+        asp-append-version="true"
+        defer></script>

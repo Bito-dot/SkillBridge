@@ -1,15 +1,60 @@
+
 @model SkillBridge.Web.Features.Courses.CourseSummary
+
 <article class="card course-card">
-    <div class="course-art @Model.ArtworkKey"><partial name="_CourseArtwork" model="Model.ArtworkKey" /></div>
+
+    <div class="course-art @Model.ArtworkKey">
+
+        @if (!string.IsNullOrWhiteSpace(Model.ThumbnailUrl))
+        {
+            <img src="@Model.ThumbnailUrl"
+                 alt="@Model.Title course thumbnail"
+                 class="cz-uploaded-thumbnail"
+                 loading="lazy" />
+        }
+        else
+        {
+            <div class="cz-course-placeholder">
+                <partial name="_CourseArtwork"
+                         model="Model.ArtworkKey" />
+            </div>
+        }
+
+    </div>
+
     <div class="card-body">
+
         <span class="badge brand">@Model.Category</span>
-        <h3><a asp-page="/ChangZhe/Courses/Detail" asp-route-id="@Model.Id">@Model.Title</a></h3>
+
+        <h3>
+            <a asp-page="/ChangZhe/Courses/Detail"
+               asp-route-id="@Model.Id">
+                @Model.Title
+            </a>
+        </h3>
+
         <p>@Model.Summary</p>
+
         <div class="course-meta">
-            <span><partial name="_Icon" model='@("book")' /> @Model.LessonCount lessons</span>
-            <span><partial name="_Icon" model='@("clock")' /> @Model.DurationMinutes minutes</span>
+            <span>
+                <partial name="_Icon" model='@("book")' />
+                @Model.LessonCount lessons
+            </span>
+
+            <span>
+                <partial name="_Icon" model='@("clock")' />
+                @Model.DurationMinutes minutes
+            </span>
+
             <span>@Model.Level</span>
         </div>
-        <a class="btn secondary" asp-page="/ChangZhe/Courses/Detail" asp-route-id="@Model.Id">View course</a>
+
+        <a class="btn secondary"
+           asp-page="/ChangZhe/Courses/Detail"
+           asp-route-id="@Model.Id">
+            View course
+        </a>
+
     </div>
+
 </article>

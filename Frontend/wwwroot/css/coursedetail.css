@@ -1,0 +1,475 @@
+
+/* ==========================================
+   SKILLBRIDGE - COURSE DETAIL
+   ========================================== */
+
+.cz-detail {
+    max-width: 1100px;
+    margin: 24px auto 80px;
+    padding: 0 24px;
+    color: #102d28;
+}
+
+.cz-detail-breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 22px;
+    font-size: 13px;
+    color: #64748b;
+}
+
+.cz-detail-breadcrumb a {
+    color: #0f6e63;
+    text-decoration: none;
+}
+
+.cz-detail-breadcrumb a:hover {
+    text-decoration: underline;
+}
+
+.cz-detail-header {
+    margin-bottom: 28px;
+}
+
+.cz-detail-header h1 {
+    margin: 0 0 12px;
+    color: #102d28;
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+.cz-detail-header p {
+    margin: 0;
+    color: #475569;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+.cz-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.8fr) minmax(260px, 0.85fr);
+    align-items: start;
+    gap: 24px;
+}
+
+.cz-detail-main {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.cz-detail-panel {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e0e7e4;
+    border-radius: 6px;
+}
+
+.cz-detail-panel h1,
+.cz-detail-panel h2 {
+    margin: 0;
+    padding: 20px 22px;
+    border-bottom: 1px solid #edf1ef;
+    color: #102d28;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.cz-detail-panel-body {
+    padding: 22px;
+}
+
+.cz-detail-panel-body p {
+    margin: 0 0 16px;
+    color: #475569;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.cz-detail-panel-body p:last-child {
+    margin-bottom: 0;
+}
+
+.cz-detail-description {
+    white-space: pre-line;
+}
+
+.cz-detail-empty {
+    padding: 24px 16px;
+    text-align: center;
+}
+
+.cz-detail-empty-icon {
+    margin-bottom: 12px;
+    font-size: 32px;
+}
+
+.cz-detail-empty h3 {
+    margin: 0 0 10px;
+    font-size: 17px;
+    color: #102d28;
+}
+
+.cz-detail-empty p {
+    max-width: 380px;
+    margin: 0 auto;
+    color: #64748b;
+}
+
+.cz-detail-outline-summary {
+    font-weight: 600;
+}
+
+.cz-detail-muted {
+    color: #64748b !important;
+    font-size: 13px;
+}
+
+.cz-detail-sidebar {
+    min-width: 0;
+}
+
+.cz-detail-enrol-card {
+    overflow: hidden;
+    background: #fff;
+    border: 1px solid #e0e7e4;
+    border-radius: 6px;
+}
+
+.cz-detail-cover {
+    height: 175px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #e1efea;
+}
+
+.cz-detail-cover-art {
+    position: relative;
+    width: 175px;
+    height: 100px;
+}
+
+.cz-detail-cover-circle,
+.cz-detail-cover-node {
+    position: absolute;
+    display: block;
+    width: 17px;
+    height: 17px;
+    background: #0f6e63;
+    border-radius: 50%;
+}
+
+.cz-detail-cover-circle {
+    left: 15px;
+    top: 16px;
+}
+
+.cz-detail-cover-node {
+    right: 35px;
+    bottom: 16px;
+    background: #d97706;
+}
+
+.cz-detail-cover-line {
+    position: absolute;
+    left: 25px;
+    top: 35px;
+    width: 105px;
+    height: 42px;
+    border-bottom: 3px solid #0f6e63;
+    border-left: 3px solid #0f6e63;
+    border-radius: 0 0 0 20px;
+}
+
+.cz-detail-cover-label {
+    position: absolute;
+    right: 0;
+    top: 40px;
+    padding: 8px 10px;
+    background: #fff;
+    border-radius: 4px;
+    color: #0f6e63;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.cz-detail-enrol-content {
+    padding: 22px;
+}
+
+.cz-detail-level {
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #e0f2e9;
+    color: #0f766e;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.cz-detail-enrol-content h2 {
+    margin: 14px 0 8px;
+    font-size: 22px;
+    line-height: 1.3;
+    color: #102d28;
+}
+
+.cz-detail-enrol-content p {
+    margin: 0 0 16px;
+}
+
+.cz-detail-features {
+    list-style: none;
+    padding: 0;
+    margin: 22px 0;
+}
+
+.cz-detail-features li {
+    position: relative;
+    padding: 0 0 13px 23px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #475569;
+}
+
+.cz-detail-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #0f766e;
+    font-weight: 700;
+}
+
+.cz-detail-btn {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid #d2dfda;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+}
+
+.cz-detail-btn.primary {
+    background: #0f6e63;
+    border-color: #0f6e63;
+    color: #fff;
+}
+
+.cz-detail-btn.primary:hover {
+    background: #0b594f;
+}
+
+.cz-detail-btn.secondary {
+    background: #fff;
+    color: #102d28;
+}
+
+.cz-detail-btn.secondary:hover {
+    background: #f0f5f3;
+}
+
+.cz-detail-btn.full {
+    display: flex;
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.cz-detail-status {
+    padding: 14px;
+    border: 1px solid #d6e7df;
+    border-radius: 5px;
+    background: #f0f7f3;
+    color: #27584c;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@media (max-width: 800px) {
+    .cz-detail-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cz-detail-sidebar {
+        max-width: 480px;
+        width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .cz-detail {
+        padding: 0 12px;
+        margin-top: 18px;
+    }
+
+    .cz-detail-header h1 {
+        font-size: 27px;
+    }
+
+    .cz-detail-panel-body {
+        padding: 18px;
+    }
+
+    .cz-detail-enrol-content {
+        padding: 18px;
+    }
+
+}
+
+
+/* ==========================================
+   CHANG ZHE - COURSE DETAIL THUMBNAIL
+   ========================================== */
+
+.cz-detail-cover {
+    position: relative;
+    overflow: hidden;
+}
+
+.cz-detail-cover-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.cz-detail-header,
+.cz-detail-main,
+.cz-detail-panel,
+.cz-detail-sidebar {
+    min-width: 0;
+}
+
+.cz-detail-description,
+.cz-detail-header p,
+.cz-detail-panel-body p {
+    overflow-wrap: anywhere;
+    word-break: normal;
+}
+
+/* ==========================================
+   CHANG ZHE - ADMIN DRAFT PREVIEW ONLY
+   ========================================== */
+
+.cz-draft-preview .cz-draft-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 28px;
+    padding: 22px 26px;
+    border: 1px solid #e7c78f;
+    border-left: 5px solid #b45309;
+    border-radius: 6px;
+    background: #fff8eb;
+}
+
+.cz-draft-preview .cz-draft-banner-content {
+    min-width: 0;
+}
+
+.cz-draft-preview .cz-draft-label {
+    display: inline-block;
+    margin-bottom: 8px;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.cz-draft-preview .cz-draft-banner h2 {
+    margin: 0 0 8px;
+    padding: 0;
+    border: 0;
+    color: #78350f;
+    font-size: 22px;
+}
+
+.cz-draft-preview .cz-draft-banner p {
+    margin: 0;
+    color: #854d0e;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.cz-draft-preview .cz-draft-badge {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    padding: 6px 14px;
+    border-radius: 30px;
+    background: #f8e3ba;
+    color: #92400e;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.cz-draft-preview .cz-draft-back {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 20px;
+    color: #0f6e63;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.cz-draft-preview .cz-draft-back:hover {
+    text-decoration: underline;
+}
+
+.cz-draft-preview .cz-detail-cover-draft {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 6px 12px;
+    border-radius: 4px;
+    background: #fff8eb;
+    color: #92400e;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px #00000015;
+}
+
+.cz-draft-preview .cz-draft-enrol-notice {
+    padding: 16px;
+    border: 1px solid #e7c78f;
+    border-radius: 5px;
+    background: #fff8eb;
+}
+
+.cz-draft-preview .cz-draft-enrol-notice strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #92400e;
+    font-size: 13px;
+}
+
+.cz-draft-preview .cz-draft-enrol-notice p {
+    margin: 0;
+    color: #854d0e;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+    .cz-draft-preview .cz-draft-banner {
+        flex-direction: column;
+        padding: 18px;
+    }
+
+    .cz-draft-preview .cz-draft-banner h2 {
+        font-size: 19px;
+    }
+}
