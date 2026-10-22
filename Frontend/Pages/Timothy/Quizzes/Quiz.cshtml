@@ -1,0 +1,34 @@
+@page
+@model SkillBridge.Web.Pages.Quizzes.QuizModel
+@{
+    ViewData["Title"] = Model.Quiz.Title;
+}
+
+<a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@Model.Quiz.Id" class="breadcrumbs">Back to quiz overview</a>
+<div class="page-head"><div><p class="eyebrow">@Model.Quiz.CourseTitle</p><h1>@Model.Quiz.Title</h1></div></div>
+<p>Choose one answer for each question. Check your answers before submitting. Answers are saved when you submit.</p>
+<form method="post" asp-route-attemptId="@Model.Attempt.Id">
+    <div asp-validation-summary="All" class="field-error" role="alert"></div>
+    @foreach (var question in Model.Questions)
+    {
+        <fieldset class="card section-space">
+            <legend>@question.SequenceNumber. @question.Text (@question.Marks marks)</legend>
+            @foreach (var option in question.Options)
+            {
+                <label class="quiz-option">
+                    <input type="radio" name="Selections[@question.Id]" value="@option.Id"
+                           checked="@(Model.Selections.GetValueOrDefault(question.Id) == option.Id)" required />
+                    @option.Text
+                </label>
+            }
+        </fieldset>
+    }
+    @if (SkillBridge.Web.Features.Quizzes.QuizAttemptStore.IsReady(Model.Questions))
+    {
+        <button class="btn primary" type="submit">Submit quiz</button>
+    }
+    else
+    {
+        <p role="status">This quiz is being prepared. Please return to the overview.</p>
+    }
+</form>

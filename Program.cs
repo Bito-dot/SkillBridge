@@ -29,6 +29,7 @@ builder.Services.AddScoped<IForumReader, MySqlForumReader>();
 builder.Services.AddScoped<IDashboardReader, MySqlDashboardReader>();
 builder.Services.AddScoped<ILessonReader, MySqlLessonReader>();
 builder.Services.AddScoped<IQuizReader, MySqlQuizReader>();
+builder.Services.AddScoped<QuizAttemptStore>();
 builder.Services.AddRazorPages(options =>
 {
     // Files stay in their owner's folder, while visitors see short URLs such as /Admin/Users.

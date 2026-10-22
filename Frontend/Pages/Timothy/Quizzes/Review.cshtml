@@ -1,0 +1,36 @@
+@page
+@model SkillBridge.Web.Pages.Quizzes.ReviewModel
+@{
+    ViewData["Title"] = "Quiz attempt review";
+}
+
+<a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@Model.Quiz.Id" class="breadcrumbs">Back to quiz overview</a>
+<div class="page-head"><div><p class="eyebrow">@Model.Quiz.CourseTitle</p><h1>@Model.Quiz.Title — Attempt review</h1>
+<p>Submitted on @Model.Attempt.SubmittedAt?.ToString("d MMM yyyy, HH:mm") UTC</p></div></div>
+<section class="card section-space">
+    <span class="label">FINAL RESULT</span>
+    <h2>Score: @Model.Attempt.Score / @Model.Attempt.MaximumMarks · @(Model.IsPassed ? "Passed" : "Try again")</h2>
+    <p>Pass mark: @Model.Quiz.PassPercentage.ToString("0.##")%. Review your answers and explanations below.</p>
+    <a asp-page="/Timothy/Quizzes/Start" asp-route-quizId="@Model.Quiz.Id" class="btn primary">Back to overview</a>
+</section>
+@foreach (var question in Model.Questions)
+{
+    <section class="card section-space">
+        <span class="badge">Question @question.SequenceNumber</span>
+        <h3>@question.Text</h3>
+        <p>@question.Marks mark(s)</p>
+        @foreach (var option in question.Options)
+        {
+            var selected = Model.Answers.GetValueOrDefault(question.Id) == option.Id;
+            <div class="quiz-option @(option.IsCorrect ? "quiz-correct" : selected ? "quiz-incorrect" : "")">
+                @option.Text
+                @if (option.IsCorrect) { <strong> — Correct answer</strong> }
+                @if (selected) { <strong> — Your selection</strong> }
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(question.Explanation))
+        {
+            <div class="info-banner"><strong>Explanation:</strong><p>@question.Explanation</p></div>
+        }
+    </section>
+}

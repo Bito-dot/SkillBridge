@@ -2004,3 +2004,8 @@ textarea:focus-visible {
     .admin-sidebar nav { display: flex; flex-wrap: wrap; }
     .admin-shell .grid.four { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+.quiz-option { display: block; padding: 14px 18px; margin-bottom: 10px; border: 1px solid #e2e8f0; border-radius: 8px; }
+.quiz-option input { width: auto; margin-right: 12px; }
+.quiz-correct { border-color: #046c4e; background: #f0fdf4; }
+.quiz-incorrect { border-color: #e02424; background: #fdf2f2; }

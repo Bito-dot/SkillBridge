@@ -3,42 +3,134 @@
 @{
     ViewData["Title"] = Model.Quiz.Title;
 }
+
 <a asp-page="/ChangZhe/Courses/Detail" asp-route-id="@Model.Quiz.CourseId" class="breadcrumbs">← @Model.Quiz.CourseTitle</a>
+
 <div class="page-head">
     <div>
         <p class="eyebrow">COURSE QUIZ</p>
         <h1>@Model.Quiz.Title</h1>
-        <p>Review the assessment details for @Model.Quiz.CourseTitle.</p>
+        <p>Check your understanding, then learn from every answer.</p>
     </div>
 </div>
+
 @if (User.IsInRole("Admin"))
 {
     <div class="alert warning" role="status">
         Administrator preview. Members can view this quiz when both the quiz and course are published and they are enrolled.
     </div>
 }
-<div class="grid three">
+
+<div class="grid four">
     <section class="card stat">
         <span class="label">Questions</span>
         <strong class="value">@Model.Quiz.QuestionCount</strong>
+        <span class="muted">single-choice questions</span>
+    </section>
+    <section class="card stat">
+        <span class="label">Total Marks</span>
+        <strong class="value">@Model.TotalMarks</strong>
+        <span class="muted">total marks</span>
     </section>
     <section class="card stat">
         <span class="label">Pass mark</span>
         <strong class="value">@(Model.Quiz.PassPercentage.ToString("0.##"))%</strong>
+        <span class="muted">pass mark</span>
     </section>
     <section class="card stat">
-        <span class="label">Quiz status</span>
-        <strong class="value">@(Model.Quiz.IsPublished ? "Published" : "Draft")</strong>
+        <span class="label">Time limit</span>
+        <strong class="value">No limit</strong>
+        <span class="muted">take your time</span>
     </section>
 </div>
-<section class="card section-space">
-    <div class="card-body">
-        <h2>Before you begin</h2>
-        <p class="body-copy">@Model.Quiz.Instructions</p>
-        <p class="muted">Quiz attempts are not open yet.</p>
-        @if (User.IsInRole("Admin"))
+
+<div class="split section-space">
+    <section class="card section-space">
+        <div class="card-body">
+            <h2>Before you begin</h2>
+            <ul class="checklist">
+                <li>✓ Choose one of four answers for each question.</li>
+                <li>✓ All questions appear on one page.</li>
+                <li>✓ Answer every question and check your selections before submitting.</li>
+                <li>✓ After submission, read explanations and practise again.</li>
+            </ul>
+            <p class="body-copy">@Model.Quiz.Instructions</p>
+
+            @if (Model.IsReady)
+            {
+                <form method="post" asp-route-quizId="@Model.Quiz.Id">
+                    <button type="submit" class="btn primary">Start or resume quiz</button>
+                </form>
+            }
+            else
+            {
+                <p class="muted">This quiz is being prepared. It needs at least one question, four options per question and one correct answer per question.</p>
+            }
+            <a asp-page="/ChangZhe/Courses/Detail" asp-route-id="@Model.Quiz.CourseId" class="btn secondary">Back to course</a>
+        </div>
+    </section>
+
+    <aside class="card sidebar-card">
+        <h3>Your learning path</h3>
+
+        <h4>@Model.Quiz.CourseTitle</h4>
+        <p>Practise the ideas you have learnt.</p>
+
+        <hr />
+        <span class="label">LAST ATTEMPT</span>
+        @if (Model.LastAttempt != null)
         {
-            <a asp-page="/Timothy/Admin/Quizzes/Index" class="btn secondary">Back to quizzes</a>
+            <strong class="value @(Model.LastAttempt.IsPassed ? "text-success" : "text-warning")">
+                @Model.LastAttempt.Score / @Model.LastAttempt.MaximumMarks · @(Model.LastAttempt.IsPassed ? "Passed" : "Try again")
+            </strong>
+            <span class="muted">@Model.LastAttempt.SubmittedAt.ToString("d MMM yyyy, HH:mm") UTC</span>
         }
-    </div>
-</section>
+        else
+        {
+            <p class="muted">No attempts recorded yet.</p>
+        }
+    </aside>
+</div>
+
+<div class="info-banner">
+    <strong>Lesson completion and quiz scores are recorded separately.</strong>
+    <p>You can start the quiz without finishing every lesson.</p>
+</div>
+
+@if (Model.PreviousAttempts.Count > 0)
+{
+    <section class="card table-wrap section-space">
+        <h2>Your previous attempts</h2>
+        <p class="muted">Only your own saved attempts appear here. Select a result to review your answers.</p>
+
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Attempt</th>
+                    <th>Submitted</th>
+                    <th>Score</th>
+                    <th>Result</th>
+                    <th>Review</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var attempt in Model.PreviousAttempts)
+                {
+                    <tr>
+                        <td>@attempt.Number</td>
+                        <td>@attempt.SubmittedAt.ToString("d MMM yyyy, HH:mm") UTC</td>
+                        <td>@attempt.Score / @attempt.MaximumMarks</td>
+                        <td>
+                            <span class="badge @(attempt.IsPassed ? "success" : "warning")">
+                                @(attempt.IsPassed ? "Passed" : "Try again")
+                            </span>
+                        </td>
+                        <td>
+                            <a asp-page="/Timothy/Quizzes/Review" asp-route-attemptId="@attempt.Id">View result</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </section>
+}
