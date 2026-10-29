@@ -1,0 +1,188 @@
+@page "{id:long?}"
+@model SkillBridge.Backend.Pages.Darren.Admin.Resources.EditModel
+@{
+    ViewData["Title"] = "Darren - 05 Upload / edit resource";
+}
+
+<style>
+    .sb-btn-teal {
+        background-color: #0f6259 !important;
+        color: #ffffff !important;
+        border: none;
+    }
+
+    .sb-btn-teal:hover {
+        background-color: #0b4942 !important;
+        color: #ffffff !important;
+    }
+
+    .sb-text-teal {
+        color: #0f6259 !important;
+    }
+
+    .sb-sidebar-link {
+        color: #475569;
+        text-decoration: none;
+        display: block;
+        padding: 6px 12px;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        margin-bottom: 2px;
+    }
+
+    .sb-sidebar-link.active {
+        background-color: #e6f4f1;
+        color: #0f6259;
+        font-weight: 600;
+    }
+</style>
+
+<div class="d-flex w-100 align-items-stretch" style="min-height: calc(100vh - 70px);">
+    <!-- Left Sidebar -->
+    <aside class="bg-white border-end py-4 px-3 flex-shrink-0" style="width: 240px;">
+        <div class="text-uppercase text-muted fw-bold mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+            WORKSPACE</div>
+            <div class="d-flex flex-column mb-4">
+                <a href="#" class="sb-sidebar-link">Overview</a>
+                <a href="#" class="sb-sidebar-link">Users</a>
+                <a href="#" class="sb-sidebar-link">Courses</a>
+                <a asp-page="/Darren/Admin/Lessons/Index" class="sb-sidebar-link">Lessons</a>
+                <a asp-page="/Darren/Admin/Resources/Index" class="sb-sidebar-link active">Resources</a>
+                <a href="#" class="sb-sidebar-link">Quizzes</a>
+                <a href="#" class="sb-sidebar-link">Questions</a>
+                <a href="#" class="sb-sidebar-link">Forum</a>
+            </div>
+
+            <div class="text-uppercase text-muted fw-bold mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+                PREVIEW</div>
+                <div class="d-flex flex-column">
+                    <a href="#" class="sb-sidebar-link">Open learner site</a>
+                </div>
+            </aside>
+
+            <!-- Main Content Area -->
+            <main class="flex-grow-1 p-4 bg-light">
+                <!-- Breadcrumb -->
+                <div class="small mb-3 text-muted">
+                    <span class="sb-text-teal fw-medium">Admin</span>
+                    <span class="mx-1">&gt;</span>
+                    <a asp-page="Index" class="sb-text-teal fw-medium text-decoration-none">Resources</a>
+                    <span class="mx-1">&gt;</span>
+                    <span>@(Model.IsEditMode ? "Edit resource" : "Upload resource")</span>
+                </div>
+
+                <h1 class="fw-bold fs-2 text-dark mb-1">@(Model.IsEditMode ? "Edit resource" : "Upload resource")</h1>
+                <p class="text-muted small mb-4">Add one accessible file to its parent lesson.</p>
+
+                <div class="row g-4">
+                    <!-- Left Form Card -->
+                    <div class="col-lg-8">
+                        <div class="card border-0 shadow-sm p-4 rounded-3 bg-white">
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <h5 class="fw-bold m-0">Resource details</h5>
+                                <span class="text-muted small">* Required</span>
+                            </div>
+
+                            <form method="post" enctype="multipart/form-data">
+                                <input type="hidden" asp-for="Resource.Id" />
+
+                                <!-- Resource Title -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-dark">Resource title *</label>
+                                    <input type="text" asp-for="Resource.Title" class="form-control"
+                                           placeholder="e.g. Linux command reference" required />
+                                    <small class="text-muted">3–100 characters.</small>
+                                </div>
+
+                                <!-- Lesson & Resource Type Dropdowns -->
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold text-dark">Lesson *</label>
+                                        <select asp-for="Resource.LessonId" class="form-select" required>
+                                            <option value="">Select lesson...</option>
+                                            <option value="1">Linux Essentials · 1. Navigate files and dire...</option>
+                                            <option value="2">Git Essentials · 1. Meet Git and your first...</option>
+                                        </select>
+                                        <small class="text-muted">Choose the lesson that controls access.</small>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label small fw-semibold text-dark">Resource type *</label>
+                                        <select asp-for="Resource.Type" class="form-select" required>
+                                            <option value="PDF">PDF</option>
+                                            <option value="Video">Video</option>
+                                            <option value="Audio">Audio</option>
+                                        </select>
+                                        <small class="text-muted">Type must match the uploaded file.</small>
+                                    </div>
+                                </div>
+
+                                <!-- Description -->
+                                <div class="mb-3">
+                                    <label class="form-label small fw-semibold text-dark">Description *</label>
+                                    <textarea asp-for="Resource.Description" class="form-control" rows="3"
+                                              placeholder="A one-page reminder of navigation, file and permission commands."
+                                              required></textarea>
+                                    <small class="text-muted">10–300 characters.</small>
+                                </div>
+
+                                <!-- Transcript / Equivalent Text -->
+                                <div class="mb-4">
+                                    <label class="form-label small fw-semibold text-dark">Transcript / equivalent text</label>
+                                    <textarea asp-for="Resource.Transcript" class="form-control" rows="3"></textarea>
+                                    <small class="text-muted">Required for audio/video. For a PDF, provide an accessible text
+                                        equivalent in the lesson when needed.</small>
+                                    </div>
+
+                                    <!-- File Picker Dropzone -->
+                                    <div class="mb-4 p-4 border border-2 border-dashed rounded-3 bg-light text-center">
+                                        <i class="bi bi-upload fs-2 sb-text-teal mb-2"></i>
+                                        <div class="fw-bold text-dark mb-1">linux-command-reference.pdf</div>
+                                        <div class="text-muted small mb-3">PDF document, MP4 video or MP3 audio</div>
+                            
+                                        <input type="file" asp-for="UploadedFile" class="form-control w-75 mx-auto bg-white" />
+                                        <small class="text-muted d-block mt-2">PDF up to 10 MB; MP4 video up to 50 MB; MP3 audio up
+                                            to 10 MB.</small>
+                                        </div>
+
+                                        <!-- Form Actions -->
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn sb-btn-teal fw-semibold px-4 py-2">Upload resource</button>
+                                            <a asp-page="Index"
+                                               class="btn btn-outline-secondary bg-white text-dark fw-semibold px-4 py-2">Cancel</a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+                            <!-- Right Guidance Sidebar -->
+                            <div class="col-lg-4">
+                                <div class="card border-0 shadow-sm p-3 mb-3 rounded-3 bg-white">
+                                    <h6 class="fw-bold text-dark mb-2">Accepted files</h6>
+                                    <div class="d-flex justify-content-between small text-muted mb-1">
+                                        <span>PDF document</span>
+                                        <span class="fw-semibold">Up to 10 MB</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-muted mb-1">
+                                        <span>MP4 video</span>
+                                        <span class="fw-semibold">Up to 50 MB</span>
+                                    </div>
+                                    <div class="d-flex justify-content-between small text-muted mb-3">
+                                        <span>MP3 audio</span>
+                                        <span class="fw-semibold">Up to 10 MB</span>
+                                    </div>
+                                    <small class="text-muted border-top pt-2">Upload only learning material you have permission to
+                                        use.</small>
+                                    </div>
+
+                                    <div class="card border-0 shadow-sm p-3 rounded-3 bg-white">
+                                        <h6 class="fw-bold text-dark mb-2">Accessible learning</h6>
+                                        <p class="small text-muted mb-2">Include a transcript for every video or audio resource. Explain
+                                            important visual information in the lesson text.</p>
+                                            <div class="p-2 bg-light rounded text-muted extra-small" style="font-size: 0.8rem;">
+                                                Files are available only to authorised learners and administrators.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </main>
+                        </div>

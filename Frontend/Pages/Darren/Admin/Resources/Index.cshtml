@@ -1,0 +1,157 @@
+@page
+@model SkillBridge.Backend.Pages.Darren.Admin.Resources.IndexModel
+@{
+    ViewData["Title"] = "Darren - 04 Manage resources";
+}
+
+<style>
+    .sb-btn-teal {
+        background-color: #0f6259 !important;
+        color: #ffffff !important;
+        border: none;
+    }
+
+    .sb-btn-teal:hover {
+        background-color: #0b4942 !important;
+        color: #ffffff !important;
+    }
+
+    .sb-text-teal {
+        color: #0f6259 !important;
+    }
+
+    .sb-btn-danger {
+        background-color: #be123c !important;
+        color: #ffffff !important;
+        border: none;
+    }
+
+    .sb-badge-type {
+        background-color: #e0f2fe;
+        color: #0284c7;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.8rem;
+    }
+</style>
+
+<div class="d-flex w-100 align-items-stretch" style="min-height: calc(100vh - 70px);">
+    <!-- Left Admin Sidebar -->
+    <aside class="bg-white border-end py-4 px-3 flex-shrink-0" style="width: 240px;">
+        <div class="text-uppercase text-muted fw-bold mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+            WORKSPACE</div>
+            <div class="d-flex flex-column mb-4">
+                <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Overview</a>
+                <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Users</a>
+                <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Courses</a>
+                <a asp-page="/Darren/Admin/Lessons/Index" class="nav-link text-secondary px-2 py-1 rounded">Lessons</a>
+                <a href="#" class="nav-link fw-bold px-2 py-1 rounded"
+                   style="background-color: #e6f4f1; color: #0f6259;">Resources</a>
+                <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Quizzes</a>
+                <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Questions</a>
+                <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Forum</a>
+            </div>
+
+            <div class="text-uppercase text-muted fw-bold mb-2 px-2" style="font-size: 0.75rem; letter-spacing: 0.05em;">
+                PREVIEW</div>
+                <div class="d-flex flex-column">
+                    <a href="#" class="nav-link text-secondary px-2 py-1 rounded">Open learner site</a>
+                </div>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-grow-1 p-4 bg-light">
+                <div class="small mb-3 text-muted">
+                    <span class="sb-text-teal fw-medium">Admin</span>
+                    <span class="mx-1">&gt;</span>
+                    <span>Resources</span>
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                    <h1 class="fw-bold fs-2 text-dark m-0">Resources</h1>
+                    <div class="d-flex gap-2">
+                        <a asp-page="Edit" class="btn sb-btn-teal fw-semibold px-3 py-2 rounded-2">Upload resource</a>
+                        <a asp-page="/Darren/Admin/Lessons/Index"
+                           class="btn btn-outline-secondary fw-semibold px-3 py-2 rounded-2 bg-white text-dark border">Back to
+                            lessons</a>
+                        </div>
+                    </div>
+                    <p class="text-muted small mb-4">Manage the files learners watch, listen to and download.</p>
+
+                    <!-- Filter Bar -->
+                    <div class="bg-white p-3 rounded-3 mb-4 border shadow-sm">
+                        <form method="get" class="d-flex align-items-end gap-3">
+                            <div style="width: 200px;">
+                                <label class="form-label small text-muted fw-semibold mb-1">Course</label>
+                                <select class="form-select bg-white border">
+                                    <option value="">All courses</option>
+                                </select>
+                            </div>
+                            <div style="width: 180px;">
+                                <label class="form-label small text-muted fw-semibold mb-1">Type</label>
+                                <select class="form-select bg-white border">
+                                    <option value="">All types</option>
+                                    <option value="PDF">PDF</option>
+                                    <option value="Video">Video</option>
+                                    <option value="Audio">Audio</option>
+                                </select>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <button type="submit"
+                                        class="btn btn-outline-secondary bg-white text-dark fw-semibold px-3 py-2 border">Apply
+                                    filters</button>
+                                    <a asp-page="Index" class="sb-text-teal fw-semibold text-decoration-none px-2">Clear</a>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Resources Table -->
+                        <div class="border rounded-3 bg-white overflow-hidden shadow-sm">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="bg-light text-muted small">
+                                    <tr class="border-bottom">
+                                        <th class="py-3 ps-3 fw-semibold">Resource</th>
+                                        <th class="py-3 fw-semibold">Lesson</th>
+                                        <th class="py-3 fw-semibold text-center">Type</th>
+                                        <th class="py-3 fw-semibold text-center">Size</th>
+                                        <th class="py-3 fw-semibold text-end pe-4">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Mock Row matching mockup image_aea2d8.jpg -->
+                                    <tr class="border-bottom">
+                                        <td class="ps-3 fw-bold text-dark">Your first Git repository</td>
+                                        <td class="text-secondary">Git · Lesson 1</td>
+                                        <td class="text-center"><span class="sb-badge-type">Video</span></td>
+                                        <td class="text-center text-secondary">18.4 MB</td>
+                                        <td class="text-end pe-4 text-nowrap">
+                                            <div class="d-inline-flex gap-2 align-items-center">
+                                                <a href="#" class="sb-text-teal fw-bold text-decoration-none small px-1">Preview</a>
+                                                <a asp-page="Edit" asp-route-id="1"
+                                                   class="btn btn-sm btn-outline-secondary bg-white text-dark px-3 py-1 rounded-2 border">Edit</a>
+                                                <button type="button"
+                                                        class="btn btn-sm sb-btn-danger px-3 py-1 rounded-2 fw-semibold">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr class="border-bottom">
+                                        <td class="ps-3 fw-bold text-dark">Git command reference</td>
+                                        <td class="text-secondary">Git · Lesson 1</td>
+                                        <td class="text-center"><span class="sb-badge-type">PDF</span></td>
+                                        <td class="text-center text-secondary">186 KB</td>
+                                        <td class="text-end pe-4 text-nowrap">
+                                            <div class="d-inline-flex gap-2 align-items-center">
+                                                <a href="#" class="sb-text-teal fw-bold text-decoration-none small px-1">Download</a>
+                                                <a asp-page="Edit" asp-route-id="2"
+                                                   class="btn btn-sm btn-outline-secondary bg-white text-dark px-3 py-1 rounded-2 border">Edit</a>
+                                                <button type="button"
+                                                        class="btn btn-sm sb-btn-danger px-3 py-1 rounded-2 fw-semibold">Delete</button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </main>
+                </div>

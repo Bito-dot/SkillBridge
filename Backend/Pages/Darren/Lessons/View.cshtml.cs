@@ -1,25 +1,54 @@
+using System.Collections.Generic;
 using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using SkillBridge.Web.Features.Lessons;
+using SkillBridge.Backend.Darren.Lessons;
 
-namespace SkillBridge.Web.Pages.Lessons;
-
-[Authorize]
-public sealed class ViewModel(ILessonReader lessons) : PageModel
+namespace SkillBridge.Backend.Pages.Darren.Lessons
 {
-    public LessonDetail Detail { get; private set; } = null!;
-
-    public async Task<IActionResult> OnGetAsync(long id, CancellationToken cancellationToken)
+    [Authorize]
+    public class ViewModel : PageModel
     {
-        if (id <= 0) return NotFound();
-        if (!long.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var userId)) return Challenge();
+        private readonly ILessonReader _lessonReader;
 
-        var lesson = await lessons.GetByIdAsync(id, userId, User.IsInRole("Admin"), cancellationToken);
-        if (lesson is null) return NotFound();
+        public ViewModel(ILessonReader lessonReader)
+        {
+            _lessonReader = lessonReader;
+        }
 
-        Detail = lesson;
-        return Page();
+        public LessonItem Lesson { get; set; } = default!;
+        public List<ResourceItem> Resources { get; set; } = new();
+        public bool IsCompleted { get; set; }
+
+        public async Task<IActionResult> OnGetAsync(long id)
+        {
+            var lesson = await _lessonReader.GetLessonByIdAsync(id);
+            if (lesson == null)
+                return NotFound();
+
+            Lesson = lesson;
+            Resources = await _lessonReader.GetResourcesByLessonIdAsync(id);
+
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (long.TryParse(userIdClaim, out var userId))
+            {
+                IsCompleted = await _lessonReader.IsLessonCompletedAsync(userId, id);
+            }
+
+            return Page();
+        }
+
+        public async Task<IActionResult> OnPostToggleCompletionAsync(long id)
+        {
+            var userIdClaim = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (long.TryParse(userIdClaim, out var userId))
+            {
+                await _lessonReader.ToggleLessonCompletionAsync(userId, id);
+            }
+
+            return RedirectToPage(new { id });
+        }
     }
 }
